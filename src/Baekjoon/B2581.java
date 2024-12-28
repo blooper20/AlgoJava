@@ -26,33 +26,40 @@ import java.io.InputStreamReader;
 public class B2581 {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb = new StringBuilder();
 
-        int M = Integer.parseInt(br.readLine()); //M이상
-        int N = Integer.parseInt(br.readLine()); //N이하
+        int m = Integer.parseInt(br.readLine());
+        int n = Integer.parseInt(br.readLine());
+
         int sum = 0;
-        int min = N;
+        int min = 0;
 
-        x : for (int i = M; i <= N; i++) { //N회만큼 반복
-            if (i == 1) { //1은 소수가 아님
-                continue;
-            }
-
-            for (int j = 2; j < i; j++) { //2~i-1까지의 수랑 i랑 나눠서 나머지가 0이면 소수가 아니므로 for문 스킵.
-                if (i % j == 0) {
-                    continue x;
+        for (int i = m; i <= n; i++) {
+            if (IsPrime(i)) {
+                if (sum == 0) {
+                    min += i;
                 }
-            }
-            sum += i;
-
-            if (min > i) {
-                min = i;
+                sum += i;
             }
         }
 
-        if (sum == 0 ) {
-            System.out.println(-1);
-            return;
+        if (sum == 0) {
+            sb.append(-1);
+        } else {
+            sb.append(sum).append("\n").append(min);
         }
-        System.out.println(sum + "\n" + min);
+
+        System.out.println(sb);
+    }
+
+    /// 소수인 지 아닌 지 판별해주는 함수
+    private static boolean IsPrime(int num) {
+        if (num < 2) return false; // 1과 음수는 소수가 아님
+        for (int i = 2; i <= Math.sqrt(num); i++) {
+            if (num % i == 0) {
+                return false; // 약수를 발견하면 즉시 false 반환
+            }
+        }
+        return true; // 약수가 없으면 소수
     }
 }
