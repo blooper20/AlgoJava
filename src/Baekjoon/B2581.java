@@ -2,7 +2,7 @@ package Baekjoon;
 
 /*
 시간 제한	메모리 제한	제출	정답	맞힌 사람	정답 비율
-1 초	128 MB	164204	65670	55231	39.701%
+1 초	128 MB	164278	65702	55257	39.702%
 문제
 자연수 M과 N이 주어질 때 M이상 N이하의 자연수 중 소수인 것을 모두 골라 이들 소수의 합과 최솟값을 찾는 프로그램을 작성하시오.
 
@@ -22,42 +22,44 @@ M이상 N이하의 자연수 중 소수인 것을 모두 찾아 첫째 줄에 �
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 
 public class B2581 {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder sb = new StringBuilder();
+
         int m = Integer.parseInt(br.readLine());
         int n = Integer.parseInt(br.readLine());
 
-        ArrayList<Integer> list = new ArrayList<Integer>();
-        list = makePrimeArray(m, n);
-        int sum = list.stream().reduce(0, (a, b) -> a + b);
-        int min = list.stream().min(Integer::compare).get();
-        sb.append(sum).append("\n").append(min);
-
-    }
-
-    private static ArrayList<Integer> makePrimeArray(int m, int n) {
-        ArrayList<Integer> primeList = new ArrayList<Integer>();
         int sum = 0;
-        int min;
+        int min = 0;
 
         for (int i = m; i <= n; i++) {
-            for (int j = 2 ; j <= Math.sqrt(i); j++) {
-                if (i % j == 0) {
-                    primeList.add(i);
-                    sum += j;
-                    min = j;
-                    if (min == min) {
-
-                    }
+            if (IsPrime(i)) {
+                if (sum == 0) {
+                    min += i;
                 }
+                sum += i;
             }
         }
 
-        primeList.add(sum);
-        return primeList;
+        if (sum == 0) {
+            sb.append(-1);
+        } else {
+            sb.append(sum).append("\n").append(min);
+        }
+
+        System.out.println(sb);
+    }
+
+    /// 소수인 지 아닌 지 판별해주는 함수
+    private static boolean IsPrime(int num) {
+        if (num < 2) return false; // 1과 음수는 소수가 아님
+        for (int i = 2; i <= Math.sqrt(num); i++) {
+            if (num % i == 0) {
+                return false; // 약수를 발견하면 즉시 false 반환
+            }
+        }
+        return true; // 약수가 없으면 소수
     }
 }
