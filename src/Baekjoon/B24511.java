@@ -97,8 +97,11 @@ public class B24511 {
         }
 
         StringTokenizer qs = new StringTokenizer(br.readLine());
-        for (int i = 0; i < N; i++) {
-            qStack.add(Integer.parseInt(qs.nextToken()));
+        for (int zero: category) {
+            int insertNum = Integer.parseInt(qs.nextToken());
+            if (zero == 0) {
+                qStack.add(insertNum);
+            }
         }
 
         int M = Integer.parseInt(br.readLine());
@@ -106,7 +109,7 @@ public class B24511 {
         StringTokenizer el = new StringTokenizer(br.readLine());
         for (int i = 0; i < M; i++) {
             int element = Integer.parseInt(el.nextToken());
-            int result = QueueOrStack(category, qStack, element);
+            int result = QueueOrStack(qStack, element);
 
             if (i < M - 1) {
                 sb.append(result).append(" ");
@@ -118,22 +121,13 @@ public class B24511 {
         System.out.println(sb);
     }
 
-    private static int QueueOrStack(Deque<Integer> category, Deque<Integer> qStack, int element) {
+    private static int QueueOrStack(Deque<Integer> qStack, int element) {
         int result = element;
 
-        for (int i = 0; i < category.size(); i++) {
-            int categoryNum = category.poll();
-
-            if (categoryNum == 0) { // 큐일 때
-                category.addLast(categoryNum); // 카테고리 유지
-                int qNum = qStack.poll();   //
-                qStack.add(result);
-                result = qNum;
-
-            } else { // 스택일 때
-                category.addLast(categoryNum);
-                qStack.addLast(qStack.poll());
-            }
+        for (int i = 0; i < qStack.size(); i++) {
+            int qNum = qStack.poll();
+            qStack.add(result);
+            result = qNum;
         }
 
         return result;
