@@ -92,12 +92,10 @@ public class B24511 {
         Deque<Integer> qStack = new LinkedList<>();
 
         StringTokenizer ct = new StringTokenizer(br.readLine());
-        for (int i = 0; i < N; i++) {
-            category.add(Integer.parseInt(ct.nextToken()));
-        }
-
         StringTokenizer qs = new StringTokenizer(br.readLine());
-        for (int zero: category) {
+
+        for (int i = 0; i < N; i++) {
+            int zero = Integer.parseInt(ct.nextToken());
             int insertNum = Integer.parseInt(qs.nextToken());
             if (zero == 0) {
                 qStack.add(insertNum);
@@ -109,27 +107,13 @@ public class B24511 {
         StringTokenizer el = new StringTokenizer(br.readLine());
         for (int i = 0; i < M; i++) {
             int element = Integer.parseInt(el.nextToken());
-            int result = QueueOrStack(qStack, element);
 
-            if (i < M - 1) {
-                sb.append(result).append(" ");
-            } else {
-                sb.append(result);
-            }
+            qStack.addFirst(element);
+            element = qStack.pollLast();
+
+            sb.append(element).append(" ");
         }
 
         System.out.println(sb);
-    }
-
-    private static int QueueOrStack(Deque<Integer> qStack, int element) {
-        int result = element;
-
-        for (int i = 0; i < qStack.size(); i++) {
-            int qNum = qStack.poll();
-            qStack.add(result);
-            result = qNum;
-        }
-
-        return result;
     }
 }
