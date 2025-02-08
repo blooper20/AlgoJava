@@ -1,11 +1,5 @@
 package Baekjoon;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.HashMap;
-import java.util.StringTokenizer;
-
 /*
  시간 제한	메모리 제한	제출	정답	맞힌 사람	정답 비율
  3 초	256 MB	166874	76071	58535	44.069%
@@ -21,6 +15,12 @@ import java.util.StringTokenizer;
  첫째 줄부터 총 N개의 줄에 걸쳐 온라인 저지 회원을 나이 순, 나이가 같으면 가입한 순으로 한 줄에 한 명씩 나이와 이름을 공백으로 구분해 출력한다.
  */
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.*;
+
+
 public class B10814 {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -29,17 +29,30 @@ public class B10814 {
 
         int N = Integer.parseInt(br.readLine());
 
-        HashMap<Integer, Integer> idAge = new HashMap<>();
-        HashMap<Integer, String> idName = new HashMap<>();
+        String[][] ageName = new String[N][2];
 
         for (int i = 0; i < N; i++) {
             st = new StringTokenizer(br.readLine());
 
-            int age = Integer.parseInt(st.nextToken());
+            String age = st.nextToken();
             String name = st.nextToken();
 
-            idAge.put(i, age);
-            idName.put(i, name);
+            ageName[i][0] = age;
+            ageName[i][1] = name;
         }
+
+        Arrays.sort(ageName, new Comparator<String[]>() {
+            @Override
+            public int compare(String[] s1, String[] s2) {
+                return Integer.parseInt(s1[0]) - Integer.parseInt(s2[0]);
+            }
+        });
+
+
+        for(int i = 0; i < N; i++) {
+            sb.append(ageName[i][0]).append(' ').append(ageName[i][1]).append('\n');
+        }
+
+        System.out.println(sb);
     }
 }
